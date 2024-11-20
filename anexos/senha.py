@@ -1,0 +1,1 @@
+senha_app = "qnkp lcbs knmt mlti"
