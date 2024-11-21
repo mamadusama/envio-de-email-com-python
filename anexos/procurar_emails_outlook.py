@@ -1,4 +1,5 @@
 import win32com.client as win32
+import os
 
 # Create a new Outlook session
 outlook = win32.Dispatch('Outlook.Application')
@@ -28,13 +29,17 @@ print(caixa_de_saida)
 lista_email = caixa_de_entrada.Items
 #print(lista_email.Count) # imprime o número de e-mails na pasta
 
-for email in lista_email:
+for i,email in enumerate(lista_email, 1):
+    anexos = email.Attachments
     if email.To == 'msamasama.pt@gmail.com':
         print(f"Assunto: {email.Subject}")
         print(f"De: {email.SenderName}")
-        print(f"emaideremetente: {email.SenderEmailAddress}")
         print(f"Para: {email.To}")
         print(f"Data: {email.ReceivedTime}")
         print(f"Corpo: {email.Body[:100]}")  # Mostrar os primeiros 100 caracteres do corpo
+        for anexo in anexos:
+            caminho_codigo = os.getcwd()
+            caminho_anexo_salvar = os.path.join(caminho_codigo, "anexos", f"Email-{i - 1}-{anexo.FileName}")
+            anexo.SaveAsFile(caminho_anexo_salvar)
 
 print("fim de codigo")
